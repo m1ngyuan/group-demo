@@ -18,6 +18,8 @@ class GroupDemoApplicationTests {
     @Test
     void contextLoads() {
 
+        ////分类项数据
+
         List<CategoryItem> categoryItemList = new ArrayList<>();
 
         CategoryItem item1 = new CategoryItem();
@@ -56,7 +58,7 @@ class GroupDemoApplicationTests {
 
         categoryItemList.add(item5);
 
-        ////////////////////
+        ////分类数据
 
         List<Category> categoryList = new ArrayList<>();
 
@@ -75,16 +77,20 @@ class GroupDemoApplicationTests {
         category3.setCategoryName("cate-4");
         categoryList.add(category3);
 
+        //按categroyId分组分类数据
         Map<Integer, Category> categoryMap = categoryList.stream().collect(Collectors.toMap(Category::getCategoryId, Function.identity()));
 
+        //按categroyId分组分类项数据
         Map<Integer, List<CategoryItem>> categoryItemMap = categoryItemList.stream().collect(Collectors.groupingBy(CategoryItem::getCategoryId));
 
+        //最后组装完成后的数据结构
         List<CategoryVo> categoryVoList = new ArrayList<>(categoryMap.size());
 
         Set<Map.Entry<Integer, Category>> categorySet =  categoryMap.entrySet();
 
         Iterator<Map.Entry<Integer, Category>> entryIterator = categorySet.iterator();
 
+        //开始组装数据
         while (entryIterator.hasNext()){
             Map.Entry<Integer, Category> entry = entryIterator.next();
             Integer key = entry.getKey();
